@@ -1,124 +1,133 @@
-<div align="center">
-
-<img src="https://img.shields.io/badge/CloudGuard_AI-Multi--Cloud_Security-0ea5e9?style=for-the-badge&logo=amazonaws&logoColor=white" alt="CloudGuard AI"/>
-
-# ☁️ CloudGuard AI
-
-### Multi-Cloud Misconfiguration Detection Platform
-
-**Detect. Explain. Remediate — powered by Machine Learning.**
-
-[![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docker.com/)
-[![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat-square&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
-[![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=black)](https://aws.amazon.com/)
-
-</div>
-
----
-
-## 📌 Overview
-
-**CloudGuard AI** is a full-stack cloud security platform that automatically scans multi-cloud environments (AWS, Azure, GCP) for misconfigurations, evaluates their risk severity using a **Gradient Boosting ML model**, and delivers actionable remediation steps — all through a clean, modern dashboard.
-
-Built as a hackathon submission for **Hackathon 2026** at **The Islamia University of Bahawalpur (IUB)** under the Department of Computer Science & IT / Cyber Security & Digital Forensics.
-
----
-
-## 🎯 Key Features
-
-| Feature | Description |
-|---|---|
-| 🔍 **Multi-Cloud Scanning** | Scan AWS, Azure, and GCP resources for misconfigurations |
-| 🤖 **ML Risk Scoring** | Gradient Boosting model classifies severity (Critical / High / Medium / Low) |
-| 🧠 **SHAP Explainability** | Model decisions explained with feature importance visualizations |
-| 📊 **Live Dashboard** | Real-time findings, charts, and compliance status |
-| 🔧 **Remediation Guides** | Step-by-step fix instructions for every finding |
-| 🐳 **Dockerized** | Fully containerized with Docker Compose |
-| 🔐 **Role-Based Access** | Secure JWT authentication with user roles |
-
----
-
-## 🏗️ Architecture
-
-```
-cloudguard-ai/
-├── frontend/               # React 18 + Vite dashboard
-│   ├── src/
-│   │   ├── components/     # UI components
-│   │   ├── pages/          # Dashboard, Findings, Reports
-│   │   └── services/       # API integration
-│   └── package.json
-│
-├── backend/                # Node.js + Express REST API
-│   ├── routes/             # Auth, scan, findings endpoints
-│   ├── models/             # PostgreSQL models
-│   └── middleware/         # JWT auth, rate limiting
-│
-├── ml-service/             # Python FastAPI + Scikit-learn
-│   ├── model/              # Trained Gradient Boosting model
-│   ├── shap_utils/         # SHAP explainability logic
-│   └── main.py             # FastAPI entrypoint
-│
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
-
-### System Flow
-
-```
-User → React Dashboard → Node.js API → PostgreSQL
-                              ↓
-                     Cloud SDKs (Azure/AWS/GCP)
-                              ↓
-                     FastAPI ML Service
-                     (Risk Classification + SHAP)
-                              ↓
-                     Results → Dashboard
-```
-
 ---
 
 ## 🧰 Tech Stack
 
 ### Frontend
-- **React 18** with Vite
-- **Recharts** for data visualization
-- **Axios** for API calls
-- **Tailwind CSS** for styling
+- **React 18** + Vite 5.4
+- **Recharts** — bar, line, and radar charts
+- **Lucide React** — icon system
+- **Axios** — API communication
+- **Inline styles** — no Tailwind dependency issues in Docker
 
 ### Backend
-- **Node.js + Express** REST API
-- **JWT** authentication
-- **PostgreSQL** database
-- **Prisma** ORM
+- **Node.js 20** + Express 4.18
+- **jsonwebtoken** — JWT authentication
+- **Helmet.js** — HTTP security headers
+- **express-rate-limit** — brute force protection
+- **pg** — PostgreSQL client
 
 ### ML Service
-- **Python 3.11 + FastAPI**
-- **Scikit-learn** — Gradient Boosting Classifier
-- **SHAP** — Model explainability
-- **Pandas / NumPy** — Data processing
+- **Python 3.11** + FastAPI 0.104
+- **Scikit-learn 1.3** — Gradient Boosting Classifier + Regressor
+- **Joblib** — model serialization
+- **Uvicorn** — ASGI server
+
+### Database
+- **PostgreSQL 16** Alpine
+- Tables: `scans`, `findings`, `alerts`, `alert_rules`
+
+### Cloud SDKs
+- **@aws-sdk/client-iam** + **client-s3** + **client-ec2** v3.451
+- **@azure/identity** v4.13 + **arm-storage** v18.1 + **arm-network** v33.0
+- **@google-cloud/storage** v7.0
 
 ### Infrastructure
-- **Docker + Docker Compose**
-- **Azure SDK** (`@azure/arm-security`)
-- **AWS SDK** (`boto3`)
+- **Docker** + **Docker Compose** v3
+- Private bridge network — `cloudguard_net`
+- Multi-stage frontend Dockerfile (Vite build + serve)
+
+---
+
+## 🔍 Security Checks Covered
+
+### AWS — 6 Checks
+- IAM password policy (MFA, length, complexity, expiration)
+- IAM access key rotation (90-day threshold)
+- S3 public access block configuration
+- S3 server-side encryption (SSE-S3 / SSE-KMS)
+- S3 versioning status
+- EC2 security groups open to 0.0.0.0/0 on ports 22, 3389, 3306, 5432, 27017
+
+### Azure — 4 Checks
+- Storage account HTTPS-only enforcement
+- Public blob access setting
+- Minimum TLS version (must be TLS 1.2)
+- NSG rules allowing all inbound traffic from any source
+
+### GCP — 3 Checks
+- Cloud Storage public IAM bindings (allUsers / allAuthenticatedUsers)
+- Uniform bucket-level access
+- Object versioning
+
+---
+
+## 📋 Compliance Mapping
+
+| Check Type | CIS | NIST 800-53 | SOC2 |
+|---|---|---|---|
+| S3 Public Access | CIS 2.1.1 | AC-3 | CC6.1 |
+| S3 Encryption | CIS 2.1.3 | SC-28 | CC6.7 |
+| S3 Versioning | CIS 2.1.4 | CP-9 | A1.2 |
+| IAM Password Policy | CIS 1.8 | IA-5 | CC6.1 |
+| Access Key Rotation | CIS 1.14 | IA-5 | CC6.1 |
+| EC2 Security Groups | CIS 5.2 | SC-7 | CC6.6 |
+| Azure HTTPS | CIS 3.1 | SC-8 | CC6.7 |
+| Azure Blob Access | CIS 3.5 | AC-3 | CC6.1 |
+| Azure NSG | CIS 6.1 | SC-7 | CC6.6 |
+| Azure TLS | CIS 3.7 | SC-8 | CC6.7 |
+| GCP Public IAM | CIS 5.1 | AC-3 | CC6.1 |
+| GCP Uniform Access | CIS 5.2 | AC-6 | CC6.3 |
+
+---
+
+## 🤖 ML Model Details
+
+### Training Data
+- **5,000 synthetic records** generated by `synthetic_findings.py`
+- Based on real-world misconfiguration patterns
+
+### Features Used
+- `provider` — aws / azure / gcp
+- `service` — S3, IAM, EC2, Storage, Network, GCS
+- `severity` — ordinal encoded 0–3
+- `public_exposure` — binary flag
+- `encryption` — binary flag
+- `mfa_enabled` — binary flag
+- `resource_count` — integer
+
+### Models Trained
+- **GBClassifier** — predicts risk label with confidence %
+- **GBRegressor** — predicts continuous risk score 0–100
+
+> Both models are trained automatically during
+> `docker-compose up --build` as a Dockerfile RUN step.
+> No manual training required.
+
+### Prediction Output
+```json
+{
+  "risk_score": 87.3,
+  "risk_label": "CRITICAL",
+  "confidence": 0.94,
+  "feature_contributions": {
+    "public_exposure": 0.45,
+    "severity": 0.32,
+    "service": 0.13,
+    "encryption": 0.10
+  },
+  "recommendations": [
+    "Disable public blob access immediately",
+    "Enable private endpoint for storage account"
+  ]
+}
+```
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
-Make sure you have these installed:
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Node.js 18+](https://nodejs.org/)
-- [Python 3.11+](https://python.org/)
 - Git
 
 ### 1. Clone the repository
@@ -131,117 +140,102 @@ cd cloudguard-ai
 ### 2. Configure environment variables
 
 ```bash
-cp .env.example .env
+cp backend/.env.example backend/.env
 ```
 
-Open `.env` and fill in your credentials:
+Open `backend/.env` and fill in your values:
 
 ```env
-# Database
-DB_HOST=localhost
+PORT=5000
+JWT_SECRET=your-secret-key-change-this
+
+DB_HOST=cloudguard_db
 DB_PORT=5432
 DB_NAME=cloudguard
-DB_USER=postgres
-DB_PASSWORD=your_password
+DB_USER=cloudguard
+DB_PASSWORD=cloudguard123
 
-# JWT
-JWT_SECRET=your_jwt_secret_key
-
-# Azure (optional - for live scan)
-AZURE_SUBSCRIPTION_ID=your_subscription_id
-AZURE_TENANT_ID=your_tenant_id
-AZURE_CLIENT_ID=your_client_id
-AZURE_CLIENT_SECRET=your_client_secret
-
-# AWS (optional - for live scan)
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_REGION=us-east-1
+ML_SERVICE_URL=http://cloudguard_ml:8000
 ```
 
-> **Note:** If no cloud credentials are provided, the platform runs on simulated scan data for demo purposes.
+> No cloud credentials needed to run the platform.
+> If no credentials are provided at scan time,
+> the platform uses simulated findings for demo purposes.
 
-### 3. Run with Docker Compose
+### 3. Start the platform
 
 ```bash
 docker-compose up --build
 ```
 
-This starts all services:
+### 4. Open your browser
+
 | Service | URL |
 |---|---|
-| Frontend | http://localhost:3000 |
+| Frontend | http://localhost:5173 |
 | Backend API | http://localhost:5000 |
 | ML Service | http://localhost:8000 |
-| PostgreSQL | localhost:5432 |
-
-### 4. Run without Docker (manual setup)
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-**Backend:**
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-**ML Service:**
-```bash
-cd ml-service
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
-```
+| Health Check | http://localhost:5000/health |
 
 ---
 
-## 📸 Screenshots
+## 📡 API Reference
 
-> *(Add your dashboard screenshots here)*
-
-| Dashboard | Findings | Risk Report |
+| Method | Endpoint | Description |
 |---|---|---|
-| ![Dashboard](screenshots/dashboard.png) | ![Findings](screenshots/findings.png) | ![Report](screenshots/report.png) |
+| GET | `/` | API info |
+| GET | `/health` | Health check |
+| POST | `/api/aws/scan` | Trigger AWS scan |
+| POST | `/api/azure/scan` | Trigger Azure scan |
+| POST | `/api/gcp/scan` | Trigger GCP scan |
+| GET | `/api/analytics/dashboard` | KPI + charts data |
+| GET | `/api/analytics/comparison` | Cross-provider data |
+| GET | `/api/analytics/report/:provider` | Export data |
+| GET | `/api/alerts` | Alert feed + rules |
+| POST | `/api/alerts/rules` | Create alert rule |
+| DELETE | `/api/alerts/rules/:id` | Delete alert rule |
 
 ---
 
-## 🤖 ML Model Details
+## 🔐 Security
 
-The risk classification engine uses a **Gradient Boosting Classifier** trained on cloud misconfiguration patterns.
-
-### Input Features
-- Resource type (S3 bucket, VM, IAM role, etc.)
-- Exposure level (public, internal, private)
-- Compliance framework violations (CIS, NIST, ISO 27001)
-- Resource age and change frequency
-- Affected service criticality
-
-### Output
-- **Severity class**: Critical / High / Medium / Low
-- **Confidence score**: 0–100%
-- **SHAP values**: Feature importance per prediction
-
-### Model Performance
-| Metric | Score |
-|---|---|
-| Accuracy | ~94% |
-| Precision | ~92% |
-| Recall | ~91% |
-| F1-Score | ~91% |
-
----
-
-## 🔐 Security Notes
-
-- All secrets are managed via `.env` (never committed)
+- Cloud credentials are **never stored** in the database
+- Credentials exist only in memory during the scan request
 - JWT tokens expire after 24 hours
-- API rate limiting enabled on all endpoints
-- Cloud credentials use least-privilege IAM roles
+- Helmet.js applies CSP, HSTS, X-Frame-Options headers
+- Rate limiting on all scan and auth endpoints
+- PostgreSQL and ML service are not exposed outside Docker network
+
+---
+
+## 🛠️ Troubleshooting
+
+### Backend not starting
+```bash
+docker-compose down --remove-orphans
+docker system prune -f
+docker-compose up --build
+```
+
+### Container name conflict
+```bash
+docker rm -f cloudguard_db cloudguard_api cloudguard_ml cloudguard_ui
+docker-compose up --build
+```
+
+### Check container logs
+```bash
+docker logs cloudguard_api --tail 50
+docker logs cloudguard_ml  --tail 50
+docker logs cloudguard_db  --tail 50
+docker logs cloudguard_ui  --tail 50
+```
+
+### Frontend not loading
+```bash
+# Try this URL instead
+http://127.0.0.1:5173
+```
 
 ---
 
@@ -249,13 +243,28 @@ The risk classification engine uses a **Gradient Boosting Classifier** trained o
 
 | Name | Role |
 |---|---|
-| **[Your Name]** | Full-Stack Developer & Project Lead |
-| **Muhammad Zohaib** | Backend Developer |
-| **Afifa Yasin** | ML Engineer & Frontend |
+| **Muhammad Zohaib** | Backend Developer & ML Engineer |
+| **Afifa Yasin** | Frontend Developer & Security Analyst |
 
-**Department:** Computer Science & IT / Cyber Security & Digital Forensics  
-**Institution:** The Islamia University of Bahawalpur (IUB)  
-**Submitted to:** Hackathon 2026 — IEEE Bahawalpur Sub-Section
+**Supervisors:**
+Engr. Farhan Hassan · Dr. Asjad Amin
+
+**Department:** Computer Science & IT / Cyber Security & Digital Forensics
+**Institution:** The Islamia University of Bahawalpur (IUB)
+**Event:** IEEE Hackathon 2026 — IEEE Bahawalpur Sub-Section
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Real AWS SDK live scanning
+- [ ] Real GCP SDK live scanning
+- [ ] Scheduled automated scans (node-cron)
+- [ ] Email notifications via nodemailer
+- [ ] Kubernetes security scanning
+- [ ] Terraform / CloudFormation IaC scanning
+- [ ] Multi-user RBAC support
+- [ ] Slack and PagerDuty integrations
 
 ---
 
@@ -266,5 +275,9 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <div align="center">
-  <sub>Built with ❤️ at IUB · CloudGuard AI © 2026</sub>
+
+🛡️ **CloudGuard AI — Cloud Security. For Everyone.**
+
+Built with ❤️ at Islamia University of Bahawalpur · IEEE Hackathon 2026
+
 </div>
