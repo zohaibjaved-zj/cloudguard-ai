@@ -1,3 +1,176 @@
+```markdown
+<div align="center">
+
+<img src="https://img.shields.io/badge/CloudGuard_AI-Multi--Cloud_Security-0ea5e9?style=for-the-badge&logo=amazonaws&logoColor=white" alt="CloudGuard AI"/>
+
+# 🛡️ CloudGuard AI
+
+### MultiCloud Misconfiguration Scanner Platform
+
+**Scan. Score. Fix — powered by Machine Learning.**
+
+[![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js_20-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python_3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL_16-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docker.com/)
+[![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=black)](https://aws.amazon.com/)
+[![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat-square&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
+[![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=googlecloud&logoColor=white)](https://cloud.google.com/)
+
+</div>
+
+---
+
+## 📌 Overview
+
+**CloudGuard AI** is a full-stack, open-source cloud security platform
+that automatically detects misconfigurations across **AWS**, **Azure**,
+and **Google Cloud Platform** simultaneously through a single unified
+interface. Every finding is scored by a **Gradient Boosting ML model**
+trained on 5,000 synthetic security records, automatically mapped to
+**CIS Benchmarks**, **NIST 800-53**, and **SOC2**, and paired with
+**exact CLI commands** to fix the issue immediately.
+
+Built and submitted at **IEEE Hackathon 2026** at
+**The Islamia University of Bahawalpur (IUB)**,
+Department of Computer Science & IT / Cyber Security & Digital Forensics.
+
+> 68% of all cloud breaches are caused by misconfiguration — not hackers.
+> CloudGuard AI was built to change that.
+
+---
+
+## 🎯 Key Features
+
+| Feature | Description |
+|---|---|
+| 🔍 **Multi-Cloud Scanning** | Scan AWS, Azure, and GCP simultaneously from one dashboard |
+| 🧠 **AI Risk Scoring** | Gradient Boosting model assigns risk score 0–100 per finding |
+| 🔧 **Auto Remediation** | Exact CLI commands and portal steps for every finding type |
+| 📋 **Compliance Mapping** | Auto-tagged to CIS Benchmarks, NIST 800-53, and SOC2 |
+| 📄 **Report Export** | One-click PDF, HTML, CSV, and JSON security reports |
+| 🔔 **Alert Management** | Custom alert rules with severity and provider filters |
+| 📊 **Live Dashboard** | KPI cards, 30-day trend charts, cross-provider comparison |
+| 🐳 **Dockerized** | Full platform runs with one single command |
+| 🔐 **JWT Authentication** | Secure token-based auth with Helmet.js and rate limiting |
+
+---
+
+## ✅ Live Test Results
+
+Tested on a **real Microsoft Azure subscription** — April 28, 2026.
+
+```
+Scan Duration : < 8 seconds
+Total Findings: 3
+```
+
+| Severity | Service | Resource | Finding |
+|---|---|---|---|
+| 🔴 CRITICAL | Storage | cloudpenteststore | Public blob access enabled |
+| 🟠 HIGH | Network | OpenNSG | NSG allows all inbound traffic from any source |
+| 🟡 MEDIUM | Storage | cloudpenteststore | TLS version below 1.2 |
+
+---
+
+## 🏗️ Architecture
+
+```
+cloudguard-ai/
+│
+├── 📄 docker-compose.yml          # One-command full stack deployment
+├── 📄 README.md
+├── 📄 LICENSE
+│
+├── 📁 backend/                    # Node.js Express API
+│   ├── 📄 server.js               # App entry point
+│   ├── 📄 .env                    # Environment variables
+│   ├── 📁 middleware/
+│   │   ├── 📄 auth.js             # JWT authentication
+│   │   └── 📄 validateKeys.js     # Credential validation
+│   ├── 📁 routes/
+│   │   ├── 📄 aws.js              # POST /api/aws/scan
+│   │   ├── 📄 azure.js            # POST /api/azure/scan
+│   │   ├── 📄 gcp.js              # POST /api/gcp/scan
+│   │   ├── 📄 analytics.js        # Dashboard + report endpoints
+│   │   └── 📄 alerts.js           # Alert feed + rules
+│   ├── 📁 services/
+│   │   ├── 📄 awsScanner.js       # AWS SDK — IAM, S3, EC2
+│   │   ├── 📄 azureScanner.js     # Azure SDK — Storage, NSG
+│   │   ├── 📄 gcpScanner.js       # GCP SDK — Cloud Storage
+│   │   ├── 📄 complianceMapper.js # CIS / NIST / SOC2 mapping
+│   │   ├── 📄 alertEngine.js      # Alert rule evaluation
+│   │   └── 📄 dbService.js        # PostgreSQL operations
+│   ├── 📁 ml/
+│   │   └── 📄 mlClient.js         # ML service HTTP client
+│   └── 📁 db/
+│       └── 📄 schema.sql          # Database schema
+│
+├── 📁 ml-service/                 # Python FastAPI ML Service
+│   ├── 📄 main.py                 # FastAPI entry point
+│   ├── 📄 requirements.txt        # Python dependencies
+│   ├── 📁 data/
+│   │   └── 📄 synthetic_findings.py  # 5,000 training records
+│   ├── 📁 models/
+│   │   └── 📄 train_model.py      # GBClassifier + GBRegressor
+│   ├── 📁 routers/
+│   │   └── 📄 predict.py          # POST /predict endpoint
+│   └── 📁 saved_models/
+│       ├── 📄 classifier.joblib   # Trained at Docker build time
+│       └── 📄 regressor.joblib    # Trained at Docker build time
+│
+└── 📁 frontend/                   # React 18 SPA
+    ├── 📄 index.html
+    ├── 📄 vite.config.js
+    └── 📁 src/
+        ├── 📄 App.jsx             # Router + layout
+        ├── 📁 services/
+        │   └── 📄 api.js          # Axios instance
+        ├── 📁 components/
+        │   ├── 📄 Navbar.jsx      # Navigation bar
+        │   └── 📄 ExportReport.jsx # PDF/HTML/CSV/JSON export
+        └── 📁 pages/
+            ├── 📄 Home.jsx        # Scan form + results
+            ├── 📄 Dashboard.jsx   # KPI + charts
+            ├── 📄 Comparison.jsx  # Cross-provider radar
+            ├── 📄 Alerts.jsx      # Alert feed + rules
+            └── 📄 About.jsx       # Project info
+```
+
+### System Flow
+
+```
+User (Browser)
+      │
+      ▼
+React Frontend (:5173)
+      │
+      │  POST /api/{provider}/scan
+      ▼
+Node.js Express API (:5000)
+      │                    │
+      │                    │ SQL queries
+      ▼                    ▼
+Cloud SDKs          PostgreSQL (:5432)
+AWS / Azure / GCP   scans, findings,
+      │             alerts, rules
+      │ raw findings
+      ▼
+Python FastAPI ML Service (:8000)
+GBClassifier + GBRegressor
+Risk Score 0–100 + Risk Label
+      │
+      │ enriched findings
+      ▼
+Node.js API → saves to DB → returns to Frontend
+      │
+      ▼
+React Dashboard renders results
+PDF / HTML / CSV / JSON export
+```
+
 ---
 
 ## 🧰 Tech Stack
@@ -241,13 +414,14 @@ http://127.0.0.1:5173
 
 ## 👥 Team
 
+| Name | Roll # |
+|---|---|
+| **Muhammad Zohaib** | **F22BINCE1M04038**  |
+| **Afifa Yasin** | **F22BINCE1M04024** |
 
-  **Muhammad Zohaib** 
-  **Afifa Yasin** 
 
 
-
-**Department:**  Cyber Security & Digital Forensics
+**Department:** Cyber Security & Digital Forensics
 **Institution:** The Islamia University of Bahawalpur (IUB)
 **Event:** IEEE Hackathon 2026 — IEEE Bahawalpur Sub-Section
 
@@ -279,3 +453,4 @@ This project is licensed under the [MIT License](LICENSE).
 Built with ❤️ at Islamia University of Bahawalpur · IEEE Hackathon 2026
 
 </div>
+```
