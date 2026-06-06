@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: cloudguard_db
+    environment:
+      POSTGRES_DB: cloudguard
+      POSTGRES_USER: cloudguard
+      POSTGRES_PASSWORD: cloudguard123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - cloudguard_net
+
+  ml-service:
+    build: ./ml-service
+    container_name: cloudguard_ml
+    ports:
+      - "8000:8000"
+    networks:
+      - cloudguard_net
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: cloudguard_api
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DB_HOST: cloudguard_db
+      DB_PORT: 5432
+      DB_NAME: cloudguard
+      DB_USER: cloudguard
+      DB_PASSWORD: cloudguard123
+      ML_SERVICE_URL: http://cloudguard_ml:8000
+      JWT_SECRET: cloudguard-super-secret-key-2024
+    depends_on:
+      - db
+      - ml-service
+    networks:
+      - cloudguard_net
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: cloudguard_ui
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - cloudguard_net
+    restart: unless-stopped
+
+networks:
+  cloudguard_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
