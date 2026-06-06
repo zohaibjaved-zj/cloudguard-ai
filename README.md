@@ -1,11 +1,10 @@
-```markdown
 <div align="center">
 
 <img src="https://img.shields.io/badge/CloudGuard_AI-Multi--Cloud_Security-0ea5e9?style=for-the-badge&logo=amazonaws&logoColor=white" alt="CloudGuard AI"/>
 
 # 🛡️ CloudGuard AI
 
-### MultiCloud Misconfiguration Scanner Platform
+### Multi-Cloud Misconfiguration Scanner Platform
 
 **Scan. Score. Fix — powered by Machine Learning.**
 
@@ -18,6 +17,7 @@
 [![AWS](https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=amazonaws&logoColor=black)](https://aws.amazon.com/)
 [![Azure](https://img.shields.io/badge/Azure-0078D4?style=flat-square&logo=microsoftazure&logoColor=white)](https://azure.microsoft.com/)
 [![GCP](https://img.shields.io/badge/GCP-4285F4?style=flat-square&logo=googlecloud&logoColor=white)](https://cloud.google.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 </div>
 
@@ -25,24 +25,20 @@
 
 ## 📌 Overview
 
-**CloudGuard AI** is a full-stack, open-source cloud security platform
-that automatically detects misconfigurations across **AWS**, **Azure**,
-and **Google Cloud Platform** simultaneously through a single unified
-interface. Every finding is scored by a **Gradient Boosting ML model**
-trained on 5,000 synthetic security records, automatically mapped to
-**CIS Benchmarks**, **NIST 800-53**, and **SOC2**, and paired with
-**exact CLI commands** to fix the issue immediately.
+**CloudGuard AI** is a full-stack, open-source cloud security platform that automatically detects misconfigurations across **AWS**, **Azure**, and **Google Cloud Platform** simultaneously — through a single unified interface.
 
-Built and submitted at **IEEE Hackathon 2026** at
-**The Islamia University of Bahawalpur (IUB)**,
-Department of Computer Science & IT / Cyber Security & Digital Forensics.
+Every finding is:
+- Scored by a **Gradient Boosting ML model** trained on 5,000 synthetic security records
+- Automatically mapped to **CIS Benchmarks**, **NIST 800-53**, and **SOC2**
+- Paired with **exact CLI commands** to fix the issue immediately
 
-> 68% of all cloud breaches are caused by misconfiguration — not hackers.
-> CloudGuard AI was built to change that.
+> Built and submitted at **IEEE Hackathon 2026** — The Islamia University of Bahawalpur (IUB), Department of Cyber Security & Digital Forensics.
+
+> ⚠️ **68% of all cloud breaches are caused by misconfiguration — not hackers.** CloudGuard AI was built to change that.
 
 ---
 
-## 🎯 Key Features
+## ✨ Features
 
 | Feature | Description |
 |---|---|
@@ -53,91 +49,96 @@ Department of Computer Science & IT / Cyber Security & Digital Forensics.
 | 📄 **Report Export** | One-click PDF, HTML, CSV, and JSON security reports |
 | 🔔 **Alert Management** | Custom alert rules with severity and provider filters |
 | 📊 **Live Dashboard** | KPI cards, 30-day trend charts, cross-provider comparison |
-| 🐳 **Dockerized** | Full platform runs with one single command |
+| 🐳 **Dockerized** | Full platform runs with a single command |
 | 🔐 **JWT Authentication** | Secure token-based auth with Helmet.js and rate limiting |
 
 ---
 
 ## ✅ Live Test Results
 
-Tested on a **real Microsoft Azure subscription** — April 28, 2026.
+> Tested on a **real Microsoft Azure subscription** — April 28, 2026.
 
 ```
-Scan Duration : < 8 seconds
+Scan Duration:  < 8 seconds
 Total Findings: 3
 ```
 
 | Severity | Service | Resource | Finding |
 |---|---|---|---|
-| 🔴 CRITICAL | Storage | cloudpenteststore | Public blob access enabled |
-| 🟠 HIGH | Network | OpenNSG | NSG allows all inbound traffic from any source |
-| 🟡 MEDIUM | Storage | cloudpenteststore | TLS version below 1.2 |
+| 🔴 CRITICAL | Storage | `cloudpenteststore` | Public blob access enabled |
+| 🟠 HIGH | Network | `OpenNSG` | NSG allows all inbound traffic from any source |
+| 🟡 MEDIUM | Storage | `cloudpenteststore` | TLS version below 1.2 |
 
 ---
 
 ## 🏗️ Architecture
 
+<details>
+<summary><b>Project Structure</b></summary>
+
 ```
 cloudguard-ai/
 │
-├── 📄 docker-compose.yml          # One-command full stack deployment
+├── 📄 docker-compose.yml               # One-command full stack deployment
 ├── 📄 README.md
 ├── 📄 LICENSE
 │
-├── 📁 backend/                    # Node.js Express API
-│   ├── 📄 server.js               # App entry point
-│   ├── 📄 .env                    # Environment variables
+├── 📁 backend/                         # Node.js Express API
+│   ├── 📄 server.js                    # App entry point
+│   ├── 📄 .env                         # Environment variables
 │   ├── 📁 middleware/
-│   │   ├── 📄 auth.js             # JWT authentication
-│   │   └── 📄 validateKeys.js     # Credential validation
+│   │   ├── 📄 auth.js                  # JWT authentication
+│   │   └── 📄 validateKeys.js          # Credential validation
 │   ├── 📁 routes/
-│   │   ├── 📄 aws.js              # POST /api/aws/scan
-│   │   ├── 📄 azure.js            # POST /api/azure/scan
-│   │   ├── 📄 gcp.js              # POST /api/gcp/scan
-│   │   ├── 📄 analytics.js        # Dashboard + report endpoints
-│   │   └── 📄 alerts.js           # Alert feed + rules
+│   │   ├── 📄 aws.js                   # POST /api/aws/scan
+│   │   ├── 📄 azure.js                 # POST /api/azure/scan
+│   │   ├── 📄 gcp.js                   # POST /api/gcp/scan
+│   │   ├── 📄 analytics.js             # Dashboard + report endpoints
+│   │   └── 📄 alerts.js                # Alert feed + rules
 │   ├── 📁 services/
-│   │   ├── 📄 awsScanner.js       # AWS SDK — IAM, S3, EC2
-│   │   ├── 📄 azureScanner.js     # Azure SDK — Storage, NSG
-│   │   ├── 📄 gcpScanner.js       # GCP SDK — Cloud Storage
-│   │   ├── 📄 complianceMapper.js # CIS / NIST / SOC2 mapping
-│   │   ├── 📄 alertEngine.js      # Alert rule evaluation
-│   │   └── 📄 dbService.js        # PostgreSQL operations
+│   │   ├── 📄 awsScanner.js            # AWS SDK — IAM, S3, EC2
+│   │   ├── 📄 azureScanner.js          # Azure SDK — Storage, NSG
+│   │   ├── 📄 gcpScanner.js            # GCP SDK — Cloud Storage
+│   │   ├── 📄 complianceMapper.js      # CIS / NIST / SOC2 mapping
+│   │   ├── 📄 alertEngine.js           # Alert rule evaluation
+│   │   └── 📄 dbService.js             # PostgreSQL operations
 │   ├── 📁 ml/
-│   │   └── 📄 mlClient.js         # ML service HTTP client
+│   │   └── 📄 mlClient.js              # ML service HTTP client
 │   └── 📁 db/
-│       └── 📄 schema.sql          # Database schema
+│       └── 📄 schema.sql               # Database schema
 │
-├── 📁 ml-service/                 # Python FastAPI ML Service
-│   ├── 📄 main.py                 # FastAPI entry point
-│   ├── 📄 requirements.txt        # Python dependencies
+├── 📁 ml-service/                      # Python FastAPI ML Service
+│   ├── 📄 main.py                      # FastAPI entry point
+│   ├── 📄 requirements.txt
 │   ├── 📁 data/
-│   │   └── 📄 synthetic_findings.py  # 5,000 training records
+│   │   └── 📄 synthetic_findings.py    # 5,000 training records
 │   ├── 📁 models/
-│   │   └── 📄 train_model.py      # GBClassifier + GBRegressor
+│   │   └── 📄 train_model.py           # GBClassifier + GBRegressor
 │   ├── 📁 routers/
-│   │   └── 📄 predict.py          # POST /predict endpoint
+│   │   └── 📄 predict.py               # POST /predict endpoint
 │   └── 📁 saved_models/
-│       ├── 📄 classifier.joblib   # Trained at Docker build time
-│       └── 📄 regressor.joblib    # Trained at Docker build time
+│       ├── 📄 classifier.joblib        # Trained at Docker build time
+│       └── 📄 regressor.joblib         # Trained at Docker build time
 │
-└── 📁 frontend/                   # React 18 SPA
+└── 📁 frontend/                        # React 18 SPA
     ├── 📄 index.html
     ├── 📄 vite.config.js
     └── 📁 src/
-        ├── 📄 App.jsx             # Router + layout
+        ├── 📄 App.jsx                  # Router + layout
         ├── 📁 services/
-        │   └── 📄 api.js          # Axios instance
+        │   └── 📄 api.js               # Axios instance
         ├── 📁 components/
-        │   ├── 📄 Navbar.jsx      # Navigation bar
-        │   └── 📄 ExportReport.jsx # PDF/HTML/CSV/JSON export
+        │   ├── 📄 Navbar.jsx
+        │   └── 📄 ExportReport.jsx     # PDF/HTML/CSV/JSON export
         └── 📁 pages/
-            ├── 📄 Home.jsx        # Scan form + results
-            ├── 📄 Dashboard.jsx   # KPI + charts
-            ├── 📄 Comparison.jsx  # Cross-provider radar
-            ├── 📄 Alerts.jsx      # Alert feed + rules
-            └── 📄 About.jsx       # Project info
+            ├── 📄 Home.jsx             # Scan form + results
+            ├── 📄 Dashboard.jsx        # KPI + charts
+            ├── 📄 Comparison.jsx       # Cross-provider radar
+            ├── 📄 Alerts.jsx           # Alert feed + rules
+            └── 📄 About.jsx            # Project info
 ```
+
+</details>
 
 ### System Flow
 
@@ -175,62 +176,49 @@ PDF / HTML / CSV / JSON export
 
 ## 🧰 Tech Stack
 
-### Frontend
-- **React 18** + Vite 5.4
-- **Recharts** — bar, line, and radar charts
-- **Lucide React** — icon system
-- **Axios** — API communication
-- **Inline styles** — no Tailwind dependency issues in Docker
-
-### Backend
-- **Node.js 20** + Express 4.18
-- **jsonwebtoken** — JWT authentication
-- **Helmet.js** — HTTP security headers
-- **express-rate-limit** — brute force protection
-- **pg** — PostgreSQL client
-
-### ML Service
-- **Python 3.11** + FastAPI 0.104
-- **Scikit-learn 1.3** — Gradient Boosting Classifier + Regressor
-- **Joblib** — model serialization
-- **Uvicorn** — ASGI server
-
-### Database
-- **PostgreSQL 16** Alpine
-- Tables: `scans`, `findings`, `alerts`, `alert_rules`
-
-### Cloud SDKs
-- **@aws-sdk/client-iam** + **client-s3** + **client-ec2** v3.451
-- **@azure/identity** v4.13 + **arm-storage** v18.1 + **arm-network** v33.0
-- **@google-cloud/storage** v7.0
-
-### Infrastructure
-- **Docker** + **Docker Compose** v3
-- Private bridge network — `cloudguard_net`
-- Multi-stage frontend Dockerfile (Vite build + serve)
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React 18 + Vite 5.4, Recharts, Lucide React, Axios |
+| **Backend** | Node.js 20 + Express 4.18, jsonwebtoken, Helmet.js, express-rate-limit, pg |
+| **ML Service** | Python 3.11 + FastAPI 0.104, scikit-learn 1.3, Joblib, Uvicorn |
+| **Database** | PostgreSQL 16 Alpine — `scans`, `findings`, `alerts`, `alert_rules` |
+| **Cloud SDKs** | AWS SDK v3, @azure/identity v4 + arm-*, @google-cloud/storage v7 |
+| **Infrastructure** | Docker + Docker Compose v3, private `cloudguard_net` bridge network |
 
 ---
 
-## 🔍 Security Checks Covered
+## 🔍 Security Checks
 
-### AWS — 6 Checks
+<details>
+<summary><b>AWS — 6 Checks</b></summary>
+
 - IAM password policy (MFA, length, complexity, expiration)
 - IAM access key rotation (90-day threshold)
 - S3 public access block configuration
 - S3 server-side encryption (SSE-S3 / SSE-KMS)
 - S3 versioning status
-- EC2 security groups open to 0.0.0.0/0 on ports 22, 3389, 3306, 5432, 27017
+- EC2 security groups open to `0.0.0.0/0` on ports 22, 3389, 3306, 5432, 27017
 
-### Azure — 4 Checks
+</details>
+
+<details>
+<summary><b>Azure — 4 Checks</b></summary>
+
 - Storage account HTTPS-only enforcement
 - Public blob access setting
 - Minimum TLS version (must be TLS 1.2)
 - NSG rules allowing all inbound traffic from any source
 
-### GCP — 3 Checks
-- Cloud Storage public IAM bindings (allUsers / allAuthenticatedUsers)
+</details>
+
+<details>
+<summary><b>GCP — 3 Checks</b></summary>
+
+- Cloud Storage public IAM bindings (`allUsers` / `allAuthenticatedUsers`)
 - Uniform bucket-level access
 - Object versioning
+
+</details>
 
 ---
 
@@ -253,30 +241,24 @@ PDF / HTML / CSV / JSON export
 
 ---
 
-## 🤖 ML Model Details
+## 🤖 ML Model
 
 ### Training Data
-- **5,000 synthetic records** generated by `synthetic_findings.py`
-- Based on real-world misconfiguration patterns
+- **5,000 synthetic records** generated by `synthetic_findings.py`, based on real-world misconfiguration patterns
 
-### Features Used
-- `provider` — aws / azure / gcp
-- `service` — S3, IAM, EC2, Storage, Network, GCS
-- `severity` — ordinal encoded 0–3
-- `public_exposure` — binary flag
-- `encryption` — binary flag
-- `mfa_enabled` — binary flag
-- `resource_count` — integer
+### Features
+`provider` · `service` · `severity` (ordinal 0–3) · `public_exposure` · `encryption` · `mfa_enabled` · `resource_count`
 
-### Models Trained
-- **GBClassifier** — predicts risk label with confidence %
-- **GBRegressor** — predicts continuous risk score 0–100
+### Models
+| Model | Purpose |
+|---|---|
+| **GBClassifier** | Predicts risk label with confidence % |
+| **GBRegressor** | Predicts continuous risk score 0–100 |
 
-> Both models are trained automatically during
-> `docker-compose up --build` as a Dockerfile RUN step.
-> No manual training required.
+> Both models train automatically during `docker-compose up --build`. No manual training required.
 
-### Prediction Output
+### Sample Prediction Output
+
 ```json
 {
   "risk_score": 87.3,
@@ -316,7 +298,7 @@ cd cloudguard-ai
 cp backend/.env.example backend/.env
 ```
 
-Open `backend/.env` and fill in your values:
+Edit `backend/.env` with your values:
 
 ```env
 PORT=5000
@@ -331,9 +313,7 @@ DB_PASSWORD=cloudguard123
 ML_SERVICE_URL=http://cloudguard_ml:8000
 ```
 
-> No cloud credentials needed to run the platform.
-> If no credentials are provided at scan time,
-> the platform uses simulated findings for demo purposes.
+> **Note:** Cloud credentials are not required to run the platform. If none are provided at scan time, the platform uses simulated findings for demo purposes.
 
 ### 3. Start the platform
 
@@ -341,7 +321,7 @@ ML_SERVICE_URL=http://cloudguard_ml:8000
 docker-compose up --build
 ```
 
-### 4. Open your browser
+### 4. Open in your browser
 
 | Service | URL |
 |---|---|
@@ -356,47 +336,56 @@ docker-compose up --build
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | API info |
-| GET | `/health` | Health check |
-| POST | `/api/aws/scan` | Trigger AWS scan |
-| POST | `/api/azure/scan` | Trigger Azure scan |
-| POST | `/api/gcp/scan` | Trigger GCP scan |
-| GET | `/api/analytics/dashboard` | KPI + charts data |
-| GET | `/api/analytics/comparison` | Cross-provider data |
-| GET | `/api/analytics/report/:provider` | Export data |
-| GET | `/api/alerts` | Alert feed + rules |
-| POST | `/api/alerts/rules` | Create alert rule |
-| DELETE | `/api/alerts/rules/:id` | Delete alert rule |
+| `GET` | `/` | API info |
+| `GET` | `/health` | Health check |
+| `POST` | `/api/aws/scan` | Trigger AWS scan |
+| `POST` | `/api/azure/scan` | Trigger Azure scan |
+| `POST` | `/api/gcp/scan` | Trigger GCP scan |
+| `GET` | `/api/analytics/dashboard` | KPI + charts data |
+| `GET` | `/api/analytics/comparison` | Cross-provider data |
+| `GET` | `/api/analytics/report/:provider` | Export data |
+| `GET` | `/api/alerts` | Alert feed + rules |
+| `POST` | `/api/alerts/rules` | Create alert rule |
+| `DELETE` | `/api/alerts/rules/:id` | Delete alert rule |
 
 ---
 
 ## 🔐 Security
 
-- Cloud credentials are **never stored** in the database
-- Credentials exist only in memory during the scan request
+- Cloud credentials are **never stored** in the database — they exist only in memory during the scan request
 - JWT tokens expire after 24 hours
-- Helmet.js applies CSP, HSTS, X-Frame-Options headers
+- Helmet.js applies CSP, HSTS, and X-Frame-Options headers
 - Rate limiting on all scan and auth endpoints
-- PostgreSQL and ML service are not exposed outside Docker network
+- PostgreSQL and ML service are isolated within the Docker network and not exposed externally
 
 ---
 
 ## 🛠️ Troubleshooting
 
-### Backend not starting
+<details>
+<summary><b>Backend not starting</b></summary>
+
 ```bash
 docker-compose down --remove-orphans
 docker system prune -f
 docker-compose up --build
 ```
 
-### Container name conflict
+</details>
+
+<details>
+<summary><b>Container name conflict</b></summary>
+
 ```bash
 docker rm -f cloudguard_db cloudguard_api cloudguard_ml cloudguard_ui
 docker-compose up --build
 ```
 
-### Check container logs
+</details>
+
+<details>
+<summary><b>Check container logs</b></summary>
+
 ```bash
 docker logs cloudguard_api --tail 50
 docker logs cloudguard_ml  --tail 50
@@ -404,25 +393,26 @@ docker logs cloudguard_db  --tail 50
 docker logs cloudguard_ui  --tail 50
 ```
 
-### Frontend not loading
-```bash
-# Try this URL instead
-http://127.0.0.1:5173
-```
+</details>
+
+<details>
+<summary><b>Frontend not loading</b></summary>
+
+Try `http://127.0.0.1:5173` instead of `localhost`.
+
+</details>
 
 ---
 
 ## 👥 Team
 
-| Name | Roll # |
+| Name | Roll No. |
 |---|---|
-| **Muhammad Zohaib** | **F22BINCE1M04038**  |
-| **Afifa Yasin** | **F22BINCE1M04024** |
+| **Muhammad Zohaib** | F22BINCE1M04038 |
+| **Afifa Yasin** | F22BINCE1M04024 |
 
-
-
-**Department:** Cyber Security & Digital Forensics
-**Institution:** The Islamia University of Bahawalpur (IUB)
+**Department:** Cyber Security & Digital Forensics  
+**Institution:** The Islamia University of Bahawalpur (IUB)  
 **Event:** IEEE Hackathon 2026 — IEEE Bahawalpur Sub-Section
 
 ---
@@ -453,4 +443,3 @@ This project is licensed under the [MIT License](LICENSE).
 Built with ❤️ at Islamia University of Bahawalpur · IEEE Hackathon 2026
 
 </div>
-```
