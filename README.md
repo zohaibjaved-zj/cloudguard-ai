@@ -404,17 +404,10 @@ Try `http://127.0.0.1:5173` instead of `localhost`.
 
 ---
 
-## 👥 Team
+## 👥 Team 
 
-| Name | Roll No. |
-|---|---|
-| **Muhammad Zohaib** | F22BINCE1M04038 |
-| **Afifa Yasin** | F22BINCE1M04024 |
-
-**Department:** Cyber Security & Digital Forensics  
-**Institution:** The Islamia University of Bahawalpur (IUB)  
-**Event:** IEEE Hackathon 2026 — IEEE Bahawalpur Sub-Section
-
+ **Muhammad Zohaib** , 
+ **Afifa Yasin** 
 ---
 
 ## 🗺️ Roadmap
@@ -438,8 +431,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-🛡️ **CloudGuard AI — Cloud Security. For Everyone.**
-
-Built with ❤️ at Islamia University of Bahawalpur · IEEE Hackathon 2026
+🛡️ **CloudGuard AI — Cloud Security. For Everyone**
 
 </div>
