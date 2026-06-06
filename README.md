@@ -241,15 +241,14 @@ http://127.0.0.1:5173
 
 ## 👥 Team
 
-| Name | Role |
+| Name | 
 |---|---|
-| **Muhammad Zohaib** | Backend Developer & ML Engineer |
-| **Afifa Yasin** | Frontend Developer & Security Analyst |
+| **Muhammad Zohaib** |  
+| **Afifa Yasin** |  
 
-**Supervisors:**
-Engr. Farhan Hassan · Dr. Asjad Amin
 
-**Department:** Computer Science & IT / Cyber Security & Digital Forensics
+
+**Department:**  Cyber Security & Digital Forensics
 **Institution:** The Islamia University of Bahawalpur (IUB)
 **Event:** IEEE Hackathon 2026 — IEEE Bahawalpur Sub-Section
 
