@@ -241,10 +241,9 @@ http://127.0.0.1:5173
 
 ## 👥 Team
 
-| Name | 
-|---|---|
-| **Muhammad Zohaib** |  
-| **Afifa Yasin** |  
+
+  **Muhammad Zohaib** 
+  **Afifa Yasin** 
 
 
 
